@@ -31,7 +31,7 @@ Jika sebuah direktori dibuat dengan awalan “AtoZ_”, maka direktori tersebut 
 Jika sebuah direktori di-rename dengan awalan “AtoZ_”, maka direktori tersebut akan menjadi direktori ter-encode.
 Apabila direktori yang terenkripsi di-rename menjadi tidak ter-encode, maka isi direktori tersebut akan terdecode.
 Setiap pembuatan direktori ter-encode (mkdir atau rename) akan tercatat ke sebuah log. Format : /home/[USER]/Downloads/[Nama Direktori] → /home/[USER]/Downloads/AtoZ_[Nama Direktori]
-Metode encode pada suatu direktori juga berlaku terhadap direktori yang ada di dalamnya.(rekursif)
+Metode encode pada suatu direktori juga berlaku terhadap direktori yang ada di dalamnya (rekursif).
 
 
 # Soal 2
