@@ -80,9 +80,6 @@ void encrpt(char * input){
     int i;
     int start=searchName(input);
     unsigned long int end=getExt(input);
-    char * first = NULL;
-    first = strrchr(input, '/');
-    int start=first-input+1;
     if((input[strlen(input)-1]=='.'&&input[strlen(input)-2]=='/')||(input[strlen(input)-1]=='.'&&input[strlen(input)-2]=='.'&&input[strlen(input)-3]=='/'))return;
     for(i=start;i < end;i++){
         if(input[i] >= 'A' && input[i] <= 'Z') {
@@ -100,9 +97,7 @@ void dencrpt(char * inputasli){
     sprintf(input,"%s",inputasli);
     int i;
     unsigned long int end=getExt(input);
-    char * first = NULL;
-    first = strrchr(input, '/');
-    int start=first-input+1;
+    int start=searchEncEnd(input);
     if((input[strlen(input)-1]=='.'&&input[strlen(input)-2]=='/')||(input[strlen(input)-1]=='.'&&input[strlen(input)-2]=='.'&&input[strlen(input)-3]=='/'))return;
     for(i=start;i < end;i++){
         if(input[i] >= 'A' && input[i] <= 'Z') {
