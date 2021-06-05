@@ -41,8 +41,6 @@ static int lastCommand = 0;
 char *atbash(char* str)
 {
 	int i;
-	//char *ext = strrchr(str, '.');
-	//if(cek && ext != NULL) k = strlen(ext);
 	for(i=0; i<strlen(str); i++) {
 		if(str[i] >= 'A' && str[i] <= 'Z') str[i] = 'Z' + 'A' - str[i];
 		if(str[i] >= 'a' && str[i] <= 'z') str[i] = 'z' + 'a' - str[i];
@@ -125,15 +123,7 @@ void hasilenkripWithLength(char* enc, int length) {
 			if(enc[i] >= 'A' && enc[i] <= 'Z') enc[i] = 'Z' + 'A' - enc[i];
 			if(enc[i] >= 'a' && enc[i] <= 'z') enc[i] = 'z' + 'a' - enc[i];
 		}
-        //atshar cipher
         
-        // for (int j = 0; j < 87; j++) {
-        //     if(enc[i] == key[j]) {
-        //         enc[i] = key[(j+10) % 87];
-        //         break;
-        //     }
-        // }
-        //atbash(enc);
     }
 }
 
