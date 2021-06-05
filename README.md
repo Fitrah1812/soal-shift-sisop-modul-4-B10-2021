@@ -11,6 +11,21 @@ Misalkan terdapat file bernama kucinglucu123.jpg pada direktori DATA_PENTING
 Note : filesystem berfungsi normal layaknya linux pada umumnya, Mount source (root) filesystem adalah directory /home/[USER]/Downloads, dalam penamaan file ‘/’ diabaikan, dan ekstensi tidak perlu di-encode.
 Referensi : https://www.dcode.fr/atbash-cipher
 
+Jawaban : Pembuatan fungsi atbash cipher untuk dilakukan encodenya
+
+```c
+char *atbash(char* str)
+{
+	int i;
+	//char *ext = strrchr(str, '.');
+	//if(cek && ext != NULL) k = strlen(ext);
+	for(i=0; i<strlen(str); i++) {
+		if(str[i] >= 'A' && str[i] <= 'Z') str[i] = 'Z' + 'A' - str[i];
+		if(str[i] >= 'a' && str[i] <= 'z') str[i] = 'z' + 'a' - str[i];
+	}
+	return str;
+}
+```
 
 Jika sebuah direktori dibuat dengan awalan “AtoZ_”, maka direktori tersebut akan menjadi direktori ter-encode.
 Jika sebuah direktori di-rename dengan awalan “AtoZ_”, maka direktori tersebut akan menjadi direktori ter-encode.
@@ -34,6 +49,7 @@ Suatu_File.txt.0002
 
 Ketika diakses melalui filesystem hanya akan muncul Suatu_File.txt
 
+Jawaban :
 
 # Soal 3
 
@@ -47,6 +63,7 @@ Pada direktori spesial semua nama file (tidak termasuk ekstensi) pada fuse akan 
 
 Contohnya jika pada direktori asli nama filenya adalah “FiLe_CoNtoH.txt” maka pada fuse akan menjadi “file_contoh.txt.1321”. 1321 berasal dari biner 10100101001.
 
+Jawaban : 
 
 # Soal 4
 
@@ -64,4 +81,118 @@ Level : Level logging, dd : 2 digit tanggal, mm : 2 digit bulan, yyyy : 4 digit 
 
 INFO::28052021-10:00:00:CREATE::/test.txt
 INFO::28052021-10:01:00:RENAME::/test.txt::/rename.txt
+
+Jawaban : 
+
+1. Menggunakan make nod untuk mengambil fungsi membuat sebuah file yang diinginkan oleh user
+
+```c
+static int xmp_mknod(const char *path, mode_t mode, dev_t rdev){
+
+	lastCommand = MKNOD_STATUS;
+
+	char * AtoZPtr = strstr(path, AtoZ);
+
+	if(AtoZPtr != NULL)
+	{
+		int length = strlen(AtoZPtr);
+
+		printf("%d\n", length);
+
+		for(int i = length; i >= 0; i--)
+		{
+			if(AtoZPtr[i] == '/')
+			{
+				length = i;
+				break;
+			}
+		}
+
+		printf("%d\n", length);
+
+		decription1WithLength(AtoZPtr, length);
+	}
+
+	printf("\n\nDEBUG mknod %s\n\n", path);
+
+	char fpath[1000];
+	
+	if(strcmp(path,"/") == 0)
+	{
+		path=dirpath;
+		sprintf(fpath,"%s",path);
+	}
+	else 
+	{
+		sprintf(fpath, "%s%s",dirpath,path);
+	}
+	int woke;
+
+	if (S_ISREG(mode)) 
+	{
+		woke = open(fpath, O_CREAT | O_EXCL | O_WRONLY, mode);
+		if (woke >= 0)
+			woke = close(woke);
+	} 
+	else if (S_ISFIFO(mode))
+		woke = mkfifo(fpath, mode);
+	else
+		woke = mknod(fpath, mode, rdev);
+
+	char str[100];
+
+	sprintf(str, "CREATE::%s", path);
+	writeInfo(str);
+
+	if (woke == -1)
+		return -errno;
+
+	return 0;
+}
+
+```
+
+
+2. File dan warning dibuat untuk mengeluarkan hal-hal yang diminta oleh soal
+
+```c
+void writeInfo(char * str)
+{
+	FILE * logFile = fopen("/home/fitraharie/SinSei.log", "a");
+
+	time_t rawtime;
+
+	struct tm * timeinfo;
+
+	time ( &rawtime );
+
+	timeinfo = localtime (&rawtime);
+
+	fprintf(logFile, "INFO::%d%d%d-%d:%d:%d::%s\n", timeinfo->tm_year+1900, timeinfo->tm_mon, timeinfo->tm_mday, timeinfo->tm_hour, timeinfo->tm_min, timeinfo->tm_sec, str);
+
+	fclose(logFile);
+}
+
+```
+
+
+```php
+void writeWarning(char * str)
+{
+	FILE * logFile = fopen("/home/fitraharie/SinSei.log", "a");
+
+	time_t rawtime;
+
+	struct tm * timeinfo;
+
+	time ( &rawtime );
+
+	timeinfo = localtime (&rawtime);
+
+	fprintf(logFile, "WARNING::%d%d%d-%d:%d:%d::%s\n", timeinfo->tm_year+1900, timeinfo->tm_mon, timeinfo->tm_mday, timeinfo->tm_hour, timeinfo->tm_min, timeinfo->tm_sec, str);
+	fclose(logFile);
+}
+```
+
+
 
