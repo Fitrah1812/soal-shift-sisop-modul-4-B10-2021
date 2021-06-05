@@ -89,6 +89,33 @@ void writeInfo(char * str)
 	fclose(logFile);
 }
 
+int encrFull(char *str)
+{
+	int ans;
+	char *fi = strtok(str, "/");
+
+	char *sc = strtok(NULL, "/");
+
+	ans = 0;
+
+	while(sc)
+
+	{
+		char sub[1024];
+
+		substring(fi, sub, 0, 5);
+
+		if(!strcmp(sub, "AtoZ_")) ans=1;
+
+		fi = sc;
+
+		sc = strtok(NULL, "/");
+		
+	}
+	return ans;
+}
+
+
 void hasilenkripWithLength(char* enc, int length) {
 
 	if(strcmp(enc, ".") == 0 || strcmp(enc, "..") == 0)return;
@@ -146,7 +173,6 @@ void decription1WithLength(char * enc, int length){
 	}
     for ( int i = start; i < length; i++) {
 		if(enc[i]=='/')continue;
- 
 		for(i=0; i<strlen(enc); i++) 
 		{
 			if(enc[i] >= 'A' && enc[i] <= 'Z') enc[i] = 'Z' + 'A' - enc[i];
