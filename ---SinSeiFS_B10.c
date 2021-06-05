@@ -1,4 +1,3 @@
-
 #define FUSE_USE_VERSION 28
 #include <fuse.h>
 #include <stdio.h>
@@ -11,10 +10,7 @@
 #include <sys/stat.h>
 #include<stdbool.h>
 
-
 static  const  char *dirpath = "/home/fitraharie/Downloads";
-char customalpha[]={'A'};
-
 
 unsigned long int getExt(char * input){
     int i;
@@ -32,8 +28,7 @@ unsigned long int getExt(char * input){
     
     return strlen(input);
 }
-int isFileExistsStats(const char *pathku)
-{
+int isFileExistsStats(const char *pathku){
     struct stat stats;
 
     stat(pathku, &stats);
@@ -78,68 +73,29 @@ int searchName(char * input){
 
 void encrpt(char * input){
     int i;
-    int shift;
-    shift=10;
-    int start=searchName(input);
-    unsigned long int end=getExt(input);
-    if((input[strlen(input)-1]=='.'&&input[strlen(input)-2]=='/')||(input[strlen(input)-1]=='.'&&input[strlen(input)-2]=='.'&&input[strlen(input)-3]=='/'))return;
-    for(i=start;i < end;i++){
-        if(input[i]=='/')continue;
-        int id=where(input[i]);
-        int newid=(id+shift)%strlen(customalpha);
-        input[i]=customalpha[newid];       
+    for(i = 0; i < strlen(input); i++) {
+        if(input[i] >= 'A' && input[i] <= 'Z') {
+            input[i] = 'Z' - (input[i] - 'A');
+        }
+        if(input[i] >= 'a' && input[i] <= 'z') {
+            input[i] = 'z' - (input[i] - 'a');
+        }
     }
-
 }
 void dencrpt(char * inputasli){
-    char input[1024];
-    char fpath[1024];
-    sprintf(input,"%s",inputasli);
     int i;
-    int shift;
-    shift=10;
-    unsigned long int end=getExt(input);
-    int start=searchEncEnd(input);
-    if((input[strlen(input)-1]=='.'&&input[strlen(input)-2]=='/')||(input[strlen(input)-1]=='.'&&input[strlen(input)-2]=='.'&&input[strlen(input)-3]=='/'))return;
-    for(i=start;i < end;i++){
-        if(input[i]=='/')continue;
-        int id=where(input[i]);
-        int newid;
-        if(id-shift<0){
-            newid=id-shift+strlen(customalpha);
+    for(i = 0; i < strlen(input); i++) {
+        if(input[i] >= 'A' && input[i] <= 'Z') {
+            input[i] = 'A' - (input[i] - 'Z');
         }
-        else{
-            newid=id-shift;
+        if(input[i] >= 'a' && input[i] <= 'z') {
+            input[i] = 'a' - (input[i] + 'z');
         }
-        input[i]=customalpha[newid];
-        
-    }
-    sprintf(fpath,"%s%s",dirpath,input);
-    if(isFileExistsStats(fpath)){
-        sprintf(inputasli,"%s",input);
-    }else{
-        sprintf(input,"%s",inputasli);
-        end=strlen(input);
-        if((input[strlen(input)-1]=='.'&&input[strlen(input)-2]=='/')||(input[strlen(input)-1]=='.'&&input[strlen(input)-2]=='.'&&input[strlen(input)-3]=='/'))return;
-        for(i=start;i < end;i++){
-            if(input[i]=='/')continue;
-            int id=where(input[i]);
-            int newid;
-            if(id-shift<0){
-                newid=id-shift+strlen(customalpha);
-            }
-            else{
-                newid=id-shift;
-            }
-            input[i]=customalpha[newid];
-        }
-        sprintf(inputasli,"%s",input);
     }
 }
 
 
-void writeInfo(char *text, char* path)
-{
+void writeInfo(char *text, char* path){
     char* info = "INFO";
     time_t t = time(NULL);
     struct tm tm = *localtime(&t);
@@ -151,8 +107,7 @@ void writeInfo(char *text, char* path)
     return;
     
 }
-void writeInfo2Param(char *text, char* path, char * path2)
-{
+void writeInfo2Param(char *text, char* path, char * path2){
     char* info = "INFO";
     time_t t = time(NULL);
     struct tm tm = *localtime(&t);
@@ -164,8 +119,7 @@ void writeInfo2Param(char *text, char* path, char * path2)
     return;
     
 }
-void writeWarning(char *text, char* path)
-{
+void writeWarning(char *text, char* path){
     char* info = "WARNING";
     time_t t = time(NULL);
     struct tm tm = *localtime(&t);
@@ -177,9 +131,7 @@ void writeWarning(char *text, char* path)
     return;
     
 }
-static  int  xmp_getattr(const char *path, struct stat *stbuf)
-
-{
+static  int  xmp_getattr(const char *path, struct stat *stbuf){
     int res;
     char fpath[1000];
 	char spath[1000];
@@ -197,8 +149,7 @@ static  int  xmp_getattr(const char *path, struct stat *stbuf)
 
   
 //readdir
-static int xmp_readdir(const char *path, void *buf, fuse_fill_dir_t filler, off_t offset, struct fuse_file_info *fi)
-{
+static int xmp_readdir(const char *path, void *buf, fuse_fill_dir_t filler, off_t offset, struct fuse_file_info *fi){
     char fpath[1000];
 	char spath[1000];
     if(strcmp(path,"/") == 0)
@@ -248,9 +199,7 @@ static int xmp_readdir(const char *path, void *buf, fuse_fill_dir_t filler, off_
 
 }
 
-static int xmp_read(const char *path, char *buf, size_t size, off_t offset,struct fuse_file_info *fi)
-
-{
+static int xmp_read(const char *path, char *buf, size_t size, off_t offset,struct fuse_file_info *fi){
     char fpath[1000];
 	char spath[1000];
     if(strcmp(path,"/") == 0||strcmp(path,".") == 0||strcmp(path,"..") == 0)
@@ -284,8 +233,7 @@ static int xmp_read(const char *path, char *buf, size_t size, off_t offset,struc
 
     return res;
 }
-static int xmp_mkdir(const char *path, mode_t mode)
-{
+static int xmp_mkdir(const char *path, mode_t mode){
 	int res;
     int i;
     char jalan[1024];
@@ -316,8 +264,7 @@ static int xmp_mkdir(const char *path, mode_t mode)
 
 	return 0;
 }
-static int xmp_open(const char *path, struct fuse_file_info *fi)
-{
+static int xmp_open(const char *path, struct fuse_file_info *fi){
 	char jalan[1024];
     char jalan2[1024];
     if(strstr(path,"AtoZ_")){   
@@ -338,8 +285,7 @@ static int xmp_open(const char *path, struct fuse_file_info *fi)
 	return 0;
 }
 
-static int xmp_truncate(const char *path, off_t size)
-{
+static int xmp_truncate(const char *path, off_t size){
 	char jalan[1024];
     char jalan2[1024];
     if(strstr(path,"AtoZ_")){
@@ -363,8 +309,7 @@ static int xmp_truncate(const char *path, off_t size)
 }
 
 
-static int xmp_unlink(const char *path)
-{
+static int xmp_unlink(const char *path){
 
     char jalan[1024];
     char jalan2[1024];
@@ -388,8 +333,7 @@ static int xmp_unlink(const char *path)
 
 	return 0;
 }
-static int xmp_rmdir(const char *path)
-{
+static int xmp_rmdir(const char *path){
     char jalan[1024];
     char jalan2[1024];
     if(strstr(path,"AtoZ_")){
@@ -410,8 +354,7 @@ static int xmp_rmdir(const char *path)
 
 	return 0;
 }
-static int xmp_rename(const char *from, const char *to)
-{
+static int xmp_rename(const char *from, const char *to){
     int res,i;
     char dari[1024],ke[1024],name[1024],jalan[1024];
     sprintf(dari,"%s%s",dirpath,from);
@@ -448,9 +391,7 @@ static int xmp_rename(const char *from, const char *to)
     }
 	return 0;
 }
-static int xmp_write(const char *path, const char *buf, size_t size,off_t offset, struct fuse_file_info *fi)
-{
-	
+static int xmp_write(const char *path, const char *buf, size_t size,off_t offset, struct fuse_file_info *fi){	
     char jalan[1024];
     char jalan2[1024];
     if(strstr(path,"AtoZ_")){
@@ -482,7 +423,6 @@ static int xmp_write(const char *path, const char *buf, size_t size,off_t offset
 }
 
 static struct fuse_operations xmp_oper = {
-
 .getattr = xmp_getattr,
 .readdir = xmp_readdir,
 .read = xmp_read,
@@ -495,8 +435,7 @@ static struct fuse_operations xmp_oper = {
 .write = xmp_write
 };
 
-int  main(int  argc, char *argv[])
-{
+int  main(int  argc, char *argv[]){
     umask(0);
     return fuse_main(argc, argv, &xmp_oper, NULL);
 }
