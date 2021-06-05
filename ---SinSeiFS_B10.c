@@ -1,3 +1,4 @@
+
 #define FUSE_USE_VERSION 28
 #include <fuse.h>
 #include <stdio.h>
@@ -10,7 +11,10 @@
 #include <sys/stat.h>
 #include<stdbool.h>
 
+
 static  const  char *dirpath = "/home/fitraharie/Downloads";
+char customalpha[]={'A'};
+
 
 unsigned long int getExt(char * input){
     int i;
@@ -28,7 +32,8 @@ unsigned long int getExt(char * input){
     
     return strlen(input);
 }
-int isFileExistsStats(const char *pathku){
+int isFileExistsStats(const char *pathku)
+{
     struct stat stats;
 
     stat(pathku, &stats);
@@ -73,24 +78,51 @@ int searchName(char * input){
 
 void encrpt(char * input){
     int i;
-    for(i = 0; i < strlen(input); i++) {
+    int start=searchName(input);
+    unsigned long int end=getExt(input);
+    if((input[strlen(input)-1]=='.'&&input[strlen(input)-2]=='/')||(input[strlen(input)-1]=='.'&&input[strlen(input)-2]=='.'&&input[strlen(input)-3]=='/'))return;
+    for(i=start;i < end;i++){
         if(input[i] >= 'A' && input[i] <= 'Z') {
             input[i] = 'Z' - (input[i] - 'A');
         }
         if(input[i] >= 'a' && input[i] <= 'z') {
             input[i] = 'z' - (input[i] - 'a');
         }
-    }
+    }       
 }
+
 void dencrpt(char * inputasli){
+    char input[1024];
+    char fpath[1024];
+    sprintf(input,"%s",inputasli);
     int i;
-    for(i = 0; i < strlen(input); i++) {
+    unsigned long int end=getExt(input);
+    int start=searchEncEnd(input);
+    if((input[strlen(input)-1]=='.'&&input[strlen(input)-2]=='/')||(input[strlen(input)-1]=='.'&&input[strlen(input)-2]=='.'&&input[strlen(input)-3]=='/'))return;
+    for(i=start;i < end;i++){
         if(input[i] >= 'A' && input[i] <= 'Z') {
             input[i] = 'A' - (input[i] - 'Z');
         }
         if(input[i] >= 'a' && input[i] <= 'z') {
             input[i] = 'a' - (input[i] + 'z');
         }
+    }
+    sprintf(fpath,"%s%s",dirpath,input);
+    if(isFileExistsStats(fpath)){
+        sprintf(inputasli,"%s",input);
+    }else{
+        sprintf(input,"%s",inputasli);
+        end=strlen(input);
+        if((input[strlen(input)-1]=='.'&&input[strlen(input)-2]=='/')||(input[strlen(input)-1]=='.'&&input[strlen(input)-2]=='.'&&input[strlen(input)-3]=='/'))return;
+        for(i=start;i < end;i++){
+            if(input[i] >= 'A' && input[i] <= 'Z') {
+                input[i] = 'A' - (input[i] - 'Z');
+        }
+            if(input[i] >= 'a' && input[i] <= 'z') {
+                input[i] = 'a' - (input[i] + 'z');
+            }
+        }
+        sprintf(inputasli,"%s",input);
     }
 }
 
@@ -391,7 +423,8 @@ static int xmp_rename(const char *from, const char *to){
     }
 	return 0;
 }
-static int xmp_write(const char *path, const char *buf, size_t size,off_t offset, struct fuse_file_info *fi){	
+static int xmp_write(const char *path, const char *buf, size_t size,off_t offset, struct fuse_file_info *fi){
+	
     char jalan[1024];
     char jalan2[1024];
     if(strstr(path,"AtoZ_")){
@@ -423,6 +456,7 @@ static int xmp_write(const char *path, const char *buf, size_t size,off_t offset
 }
 
 static struct fuse_operations xmp_oper = {
+
 .getattr = xmp_getattr,
 .readdir = xmp_readdir,
 .read = xmp_read,
@@ -435,7 +469,8 @@ static struct fuse_operations xmp_oper = {
 .write = xmp_write
 };
 
-int  main(int  argc, char *argv[]){
+int  main(int  argc, char *argv[])
+{
     umask(0);
     return fuse_main(argc, argv, &xmp_oper, NULL);
 }
