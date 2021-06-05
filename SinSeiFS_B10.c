@@ -146,12 +146,7 @@ void decription1WithLength(char * enc, int length){
 	}
     for ( int i = start; i < length; i++) {
 		if(enc[i]=='/')continue;
-        // for (int j = 0; j < 87; j++) {
-        //     if(enc[i] == key[j]) {
-        //         enc[i] = key[(j+77) % 87];
-        //         break;
-        //     }
-        // }
+ 
 		for(i=0; i<strlen(enc); i++) 
 		{
 			if(enc[i] >= 'A' && enc[i] <= 'Z') enc[i] = 'Z' + 'A' - enc[i];
