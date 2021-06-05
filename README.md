@@ -49,7 +49,7 @@ Suatu_File.txt.0002
 
 Ketika diakses melalui filesystem hanya akan muncul Suatu_File.txt
 
-Jawaban :
+Jawaban : Belum selesai mengerjakan masih bingung pada saat melakukan split file, yang harusnya bisa dilakukan menggunakan fungsi split.
 
 # Soal 3
 
@@ -63,7 +63,7 @@ Pada direktori spesial semua nama file (tidak termasuk ekstensi) pada fuse akan 
 
 Contohnya jika pada direktori asli nama filenya adalah “FiLe_CoNtoH.txt” maka pada fuse akan menjadi “file_contoh.txt.1321”. 1321 berasal dari biner 10100101001.
 
-Jawaban : 
+Jawaban : Sudah mengerjakan beberapa fungsi tetapi tidak sempat karena waktu yang tidak cukup.
 
 # Soal 4
 
