@@ -71,26 +71,26 @@ Dokumentasi :
 - sebelum rename direktori  
 pada file system :  
 ![image](https://user-images.githubusercontent.com/55240758/121781891-0bb5cf80-cbd1-11eb-9464-d9a6cbf11cd1.png)   
-![image](https://user-images.githubusercontent.com/55240758/121782566-5422bc80-cbd4-11eb-8af2-63f864d97c38.png)
+![image](https://user-images.githubusercontent.com/55240758/121782566-5422bc80-cbd4-11eb-8af2-63f864d97c38.png)  
 pada downloads :  
 ![image](https://user-images.githubusercontent.com/55240758/121782576-643a9c00-cbd4-11eb-86a6-84dd72e73d64.png)  
 ![image](https://user-images.githubusercontent.com/55240758/121782172-74517c00-cbd2-11eb-879a-bc9aa9c04c30.png)  
 - rename direktori menjadi "AtoZ_coba" (enskripsi)  
 pada file system :  
 ![image](https://user-images.githubusercontent.com/55240758/121782826-b7611e80-cbd5-11eb-8a3d-2ef486fb3cf9.png) 
-![image](https://user-images.githubusercontent.com/55240758/121782837-c5af3a80-cbd5-11eb-9c0f-3387020ac859.png)
+![image](https://user-images.githubusercontent.com/55240758/121782837-c5af3a80-cbd5-11eb-9c0f-3387020ac859.png)  
 pada download :  
 ![image](https://user-images.githubusercontent.com/55240758/121782850-d2339300-cbd5-11eb-9b7d-a097ba5c8aef.png)
-![image](https://user-images.githubusercontent.com/55240758/121782864-df508200-cbd5-11eb-83cb-2f85c93abfc1.png)
+![image](https://user-images.githubusercontent.com/55240758/121782864-df508200-cbd5-11eb-83cb-2f85c93abfc1.png)  
 - rename direktori menjadi "hadeh" (deskripsi)   
 pada file system :  
 ![image](https://user-images.githubusercontent.com/55240758/121782742-46ba0200-cbd5-11eb-8fa7-faaafb9bb79b.png)  
-![image](https://user-images.githubusercontent.com/55240758/121782763-5fc2b300-cbd5-11eb-865d-03340da93399.png)
+![image](https://user-images.githubusercontent.com/55240758/121782763-5fc2b300-cbd5-11eb-865d-03340da93399.png)  
 pada download :  
 ![image](https://user-images.githubusercontent.com/55240758/121782779-6d783880-cbd5-11eb-89d8-01e5611c1068.png)  
-![image](https://user-images.githubusercontent.com/55240758/121782785-7701a080-cbd5-11eb-9d6d-24666e053c8d.png)
+![image](https://user-images.githubusercontent.com/55240758/121782785-7701a080-cbd5-11eb-9d6d-24666e053c8d.png)  
 - log  
-![image](https://user-images.githubusercontent.com/55240758/121782963-6f8ec700-cbd6-11eb-8ce4-d84fbef4736c.png)
+![image](https://user-images.githubusercontent.com/55240758/121782963-6f8ec700-cbd6-11eb-8ce4-d84fbef4736c.png)  
 
 
 # Soal 2
@@ -313,7 +313,7 @@ Dokumentasi :
 - sebelum rename direktori  
 pada file system :  
 ![image](https://user-images.githubusercontent.com/55240758/121781891-0bb5cf80-cbd1-11eb-9464-d9a6cbf11cd1.png)  
-![image](https://user-images.githubusercontent.com/55240758/121782566-5422bc80-cbd4-11eb-8af2-63f864d97c38.png)
+![image](https://user-images.githubusercontent.com/55240758/121782566-5422bc80-cbd4-11eb-8af2-63f864d97c38.png)  
 pada downloads :  
 ![image](https://user-images.githubusercontent.com/55240758/121782576-643a9c00-cbd4-11eb-86a6-84dd72e73d64.png)
 ![image](https://user-images.githubusercontent.com/55240758/121782172-74517c00-cbd2-11eb-879a-bc9aa9c04c30.png)  
@@ -324,9 +324,9 @@ pada download :
 ![image](https://user-images.githubusercontent.com/55240758/121782360-52a4c480-cbd3-11eb-81cd-f3f895d8027c.png)  
 - rename direktori menjadi "coba" (deskripsi)   
 pada file system :  
-![image](https://user-images.githubusercontent.com/55240758/121782468-bfb85a00-cbd3-11eb-9ccc-f2720da765e3.png)
+![image](https://user-images.githubusercontent.com/55240758/121782468-bfb85a00-cbd3-11eb-9ccc-f2720da765e3.png)  
 pada downloads :  
-![image](https://user-images.githubusercontent.com/55240758/121782448-aca58a00-cbd3-11eb-88c1-cf1ff1bbe92e.png)
+![image](https://user-images.githubusercontent.com/55240758/121782448-aca58a00-cbd3-11eb-88c1-cf1ff1bbe92e.png)  
 
 
 
