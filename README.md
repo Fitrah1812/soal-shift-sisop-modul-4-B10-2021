@@ -49,7 +49,206 @@ Suatu_File.txt.0002
 
 Ketika diakses melalui filesystem hanya akan muncul Suatu_File.txt
 
-Jawaban : Belum selesai mengerjakan masih bingung pada saat melakukan split file, yang harusnya bisa dilakukan menggunakan fungsi split.
+Jawaban : Sama seperti pengerjaan no.1, namun pada nomer ini, pada suatu direktori yang apabila direname menjadi ``RX_`` akan di enskripsi dengan algoritma atbash+ROT13 dan yang semula ``RX_[nama file]`` menjadi ``[nama file]`` akan dilakukan deskripsi dengan algoritma Vigenere Cipher dengan key “SISOP” (Case-sensitive, Atbash + Vigenere). Maka untuk fungsi enskrip maupun deskrip dengan ROT13  dan Vigenere Cipher yaitu :  
+```c
+void encryptRot13(char *path)
+{
+	if (!strcmp(path, ".") || !strcmp(path, "..")) return;
+	
+	printf("encrypt path ROT13: %s\n", path);
+	
+	int endid = split_ext_id(path);
+	int startid = slash_id(path, 0);
+	
+	for (int i = startid; i < endid; i++){
+		if (path[i] != '/' && isalpha(path[i])){
+			char tmp = path[i];
+			if(isupper(path[i])) tmp -= 'A';
+			else tmp -= 'a';
+			tmp = (tmp + 13) % 26; //ROT13 cipher
+			if(isupper(path[i])) tmp += 'A';
+			else tmp += 'a';
+			path[i] = tmp;
+		}
+	}
+}
+
+void decryptRot13(char *path)
+{
+	if (!strcmp(path, ".") || !strcmp(path, "..")) return;
+	
+	printf("decrypt path ROT13: %s\n", path);
+	
+	int endid = split_ext_id(path);
+	int startid = slash_id(path, endid);
+	
+	for (int i = startid; i < endid; i++){
+		if (path[i] != '/' && isalpha(path[i])){
+			char tmp = path[i];
+			if(isupper(path[i])) tmp -= 'A';
+			else tmp -= 'a';
+			tmp = (tmp + 13) % 26; //ROT13 cipher
+			if(isupper(path[i])) tmp += 'A';
+			else tmp += 'a';
+			path[i] = tmp;
+		}
+	}
+}
+
+void encryptVigenere(char *path)
+{
+	if (!strcmp(path, ".") || !strcmp(path, "..")) return;
+	
+	printf("encrypt path Vigenere: %s\n", path);
+	
+	int endid = split_ext_id(path);
+	int startid = slash_id(path, 0);
+	
+	for (int i = startid; i < endid; i++){
+		if (path[i] != '/' && isalpha(path[i])){
+			char tmp1 = path[i];
+			char tmp2 = key[(i-startid) % strlen(key)];
+			if(isupper(path[i])){
+				tmp1 -= 'A';
+				tmp2 -= 'A';
+				tmp1 = (tmp1 + tmp2) % 26; //Vigenere cipher
+				tmp1 += 'A';
+			}
+			else{
+				tmp1 -= 'a';
+				tmp2 = tolower(tmp2) - 'a';
+				tmp1 = (tmp1 + tmp2) % 26; //Vigenere cipher
+				tmp1 += 'a';
+			}
+			path[i] = tmp1;
+		}
+	}
+}
+
+void decryptVigenere(char *path)
+{
+	if (!strcmp(path, ".") || !strcmp(path, "..")) return;
+	
+	printf("decrypt path Vigenere: %s\n", path);
+	
+	int endid = split_ext_id(path);
+	int startid = slash_id(path, endid);
+	
+	for (int i = startid; i < endid; i++){
+		if (path[i] != '/' && isalpha(path[i])){
+			char tmp1 = path[i];
+			char tmp2 = key[(i-startid) % strlen(key)];
+			if(isupper(path[i])){
+				tmp1 -= 'A';
+				tmp2 -= 'A';
+				tmp1 = (tmp1 - tmp2 + 26) % 26; //Vigenere cipher
+				tmp1 += 'A';
+			}
+			else{
+				tmp1 -= 'a';
+				tmp2 = tolower(tmp2) - 'a';
+				tmp1 = (tmp1 - tmp2 + 26) % 26; //Vigenere cipher
+				tmp1 += 'a';
+			}
+			path[i] = tmp1;
+		}
+	}
+}
+```  
+
+selanjutnya dengan menggunakan fungsi strstr(), melakukan pengecekan apakah nama directory dibuat dengan awalan ``RX_`` atau tidak.    
+
+```c
+static int xmp_rename(const char *from, const char *to)
+{
+	int res;
+	char frompath[1000], topath[1000];
+	
+	char *a = strstr(to, atoz);
+	if (a != NULL) decryptAtbash(a);
+	
+	char *b = strstr(from, rx);
+	if (b != NULL){
+		decryptRot13(b);
+		decryptAtbash(b);
+	}
+	
+	char *c = strstr(to, rx);
+	if (c != NULL){
+		decryptRot13(c);
+		decryptAtbash(c);
+	}
+
+	sprintf(frompath, "%s%s", dirPath, from);
+	sprintf(topath, "%s%s", dirPath, to);
+
+	res = rename(frompath, topath);
+	if (res == -1) return -errno;
+
+	tulisLog2("RENAME", frompath, topath);
+	
+	if (c != NULL){
+		enkripsi2(topath);
+		tulisLog2("ENCRYPT2", from, to);
+	}
+
+	if (b != NULL && c == NULL){
+		dekripsi2(topath);
+		tulisLog2("DECRYPT2", from, to);
+	}
+	return 0;
+}
+
+```  
+Apabila nama direktori tersebut berawalan ``RX_`` pada path yang dituju maka dapat diketahui bahwa direktori tersebut melakukan perename-an dengan menambahkan ``RX_`` pada nama direktori file sistem. Setelah itu pada fungsi enskripsi2, file yang terdapat dalam direktori tersebut akan di split menjadi beberapa file dengan ukuran 1024 bytes pada direktori dengan path asal.  
+```c
+void enkripsi2(char *fpath)
+{
+	chdir(fpath);
+	DIR *dp;
+	struct dirent *dir;
+	
+	dp = opendir(".");
+	if(dp == NULL) return;
+	struct stat lol;
+	char dirPath[1000];
+	char filePath[1000];
+	
+    while ((dir = readdir(dp)) != NULL){
+		printf("dirname %s\n", dir->d_name);
+		printf("%s/%s\n", fpath, dir->d_name);
+		if (stat(dir->d_name, &lol) < 0);
+		else if (S_ISDIR(lol.st_mode)){
+			if (strcmp(dir->d_name,".") == 0 || strcmp(dir->d_name,"..") == 0) continue;
+			sprintf(dirPath,"%s/%s",fpath, dir->d_name);
+			enkripsi2(dirPath);
+			printf("dirpath %s\n", dirPath);
+		}
+		else{
+			sprintf(filePath,"%s/%s",fpath,dir->d_name);
+			FILE *input = fopen(filePath, "r");
+			if (input == NULL) return;
+			int bytes_read, count = 0;
+			void *buffer = malloc(1024);
+			while((bytes_read = fread(buffer, 1, 1024, input)) > 0){
+				char newFilePath[1000];
+				sprintf(newFilePath, "%s.%04d", filePath, count);
+				count++;
+				FILE *output = fopen(newFilePath, "w+");
+				if(output == NULL) return;
+				fwrite(buffer, 1, bytes_read, output);
+				fclose(output);
+				memset(buffer, 0, 1024);
+			}
+			fclose(input);
+			printf("filepath %s\n", filePath);
+			remove(filePath);
+		}
+	}
+    closedir(dp);
+}
+```  
+Namun apabila nama direktori tersebut berawalan ``RX_`` pada path yang asal namun tidak pada path tujuan maka dapat diketahui bahwa direktori tersebut melakukan perename-an dengan menghapus ``RX_`` pada nama direktori file sistem. Setelah itu pada fungsi deskripsi2, file yang terdapat dalam direktori yang semula split menjadi beberapa file dengan ukuran 1024 bytes akan digabungkan menjadi satu pada direktori pada path asal.  
 
 # Soal 3
 
