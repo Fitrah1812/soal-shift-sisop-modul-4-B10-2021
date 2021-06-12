@@ -11,27 +11,86 @@ Misalkan terdapat file bernama kucinglucu123.jpg pada direktori DATA_PENTING
 Note : filesystem berfungsi normal layaknya linux pada umumnya, Mount source (root) filesystem adalah directory /home/[USER]/Downloads, dalam penamaan file ‘/’ diabaikan, dan ekstensi tidak perlu di-encode.
 Referensi : https://www.dcode.fr/atbash-cipher
 
-Jawaban : Pembuatan fungsi atbash cipher untuk dilakukan encodenya
-
-```c
-char *atbash(char* str)
-{
-	int i;
-	//char *ext = strrchr(str, '.');
-	//if(cek && ext != NULL) k = strlen(ext);
-	for(i=0; i<strlen(str); i++) {
-		if(str[i] >= 'A' && str[i] <= 'Z') str[i] = 'Z' + 'A' - str[i];
-		if(str[i] >= 'a' && str[i] <= 'z') str[i] = 'z' + 'a' - str[i];
-	}
-	return str;
-}
-```
-
 Jika sebuah direktori dibuat dengan awalan “AtoZ_”, maka direktori tersebut akan menjadi direktori ter-encode.
 Jika sebuah direktori di-rename dengan awalan “AtoZ_”, maka direktori tersebut akan menjadi direktori ter-encode.
 Apabila direktori yang terenkripsi di-rename menjadi tidak ter-encode, maka isi direktori tersebut akan terdecode.
 Setiap pembuatan direktori ter-encode (mkdir atau rename) akan tercatat ke sebuah log. Format : /home/[USER]/Downloads/[Nama Direktori] → /home/[USER]/Downloads/AtoZ_[Nama Direktori]
-Metode encode pada suatu direktori juga berlaku terhadap direktori yang ada di dalamnya (rekursif).
+Metode encode pada suatu direktori juga berlaku terhadap direktori yang ada di dalamnya (rekursif).  
+
+Jawaban : Pada suatu direktori yang apabila direname menjadi ``AtoZ_`` akan di enskripsi dengan algoritma atbash dan yang semula ``AtoZ_[nama file]`` menjadi ``[nama file]`` akan dilakukan deskripsi dengan algoritma atbash pula. Maka untuk fungsi enskrip maupun deskrip dengan atbash yaitu : 
+
+```c
+void encryptAtbash(char *path)
+{
+	if (!strcmp(path, ".") || !strcmp(path, "..")) return;
+	
+	printf("encrypt path Atbash: %s\n", path);
+	
+	int endid = split_ext_id(path);
+	if(endid == strlen(path)) endid = ext_id(path);
+	int startid = slash_id(path, 0);
+	
+	for (int i = startid; i < endid; i++){
+		if (path[i] != '/' && isalpha(path[i])){
+			char tmp = path[i];
+			if(isupper(path[i])) tmp -= 'A';
+			else tmp -= 'a';
+			tmp = 25 - tmp; //Atbash cipher
+			if(isupper(path[i])) tmp += 'A';
+			else tmp += 'a';
+			path[i] = tmp;
+		}
+	}
+}
+
+void decryptAtbash(char *path)
+{
+	if (!strcmp(path, ".") || !strcmp(path, "..")) return;
+	
+	printf("decrypt path Atbash: %s\n", path);
+	
+	int endid = split_ext_id(path);
+	if(endid == strlen(path)) endid = ext_id(path);
+	int startid = slash_id(path, endid);
+	
+	for (int i = startid; i < endid; i++){
+		if (path[i] != '/' && isalpha(path[i])){
+			char tmp = path[i];
+			if(isupper(path[i])) tmp -= 'A';
+			else tmp -= 'a';
+			tmp = 25 - tmp; //Atbash cipher
+			if(isupper(path[i])) tmp += 'A';
+			else tmp += 'a';
+			path[i] = tmp;
+		}
+	}
+}
+```  
+Apabila fungsi enskrip tersebut berjalan maka akan dicatat pada file log yaitu SinSeiFS.log dimana pencatatan ini memilki fungsi terseniri yang akan dijelaskan pada soal nomer 4.
+Dokumentasi :  
+- sebelum rename direktori  
+pada file system :  
+![image](https://user-images.githubusercontent.com/55240758/121781891-0bb5cf80-cbd1-11eb-9464-d9a6cbf11cd1.png)   
+![image](https://user-images.githubusercontent.com/55240758/121782566-5422bc80-cbd4-11eb-8af2-63f864d97c38.png)
+pada downloads :  
+![image](https://user-images.githubusercontent.com/55240758/121782576-643a9c00-cbd4-11eb-86a6-84dd72e73d64.png)  
+![image](https://user-images.githubusercontent.com/55240758/121782172-74517c00-cbd2-11eb-879a-bc9aa9c04c30.png)  
+- rename direktori menjadi "AtoZ_coba" (enskripsi)  
+pada file system :  
+![image](https://user-images.githubusercontent.com/55240758/121782826-b7611e80-cbd5-11eb-8a3d-2ef486fb3cf9.png) 
+![image](https://user-images.githubusercontent.com/55240758/121782837-c5af3a80-cbd5-11eb-9c0f-3387020ac859.png)
+pada download :  
+![image](https://user-images.githubusercontent.com/55240758/121782850-d2339300-cbd5-11eb-9b7d-a097ba5c8aef.png)
+![image](https://user-images.githubusercontent.com/55240758/121782864-df508200-cbd5-11eb-83cb-2f85c93abfc1.png)
+- rename direktori menjadi "hadeh" (deskripsi)   
+pada file system :  
+![image](https://user-images.githubusercontent.com/55240758/121782742-46ba0200-cbd5-11eb-8fa7-faaafb9bb79b.png)  
+![image](https://user-images.githubusercontent.com/55240758/121782763-5fc2b300-cbd5-11eb-865d-03340da93399.png)
+pada download :  
+![image](https://user-images.githubusercontent.com/55240758/121782779-6d783880-cbd5-11eb-89d8-01e5611c1068.png)  
+![image](https://user-images.githubusercontent.com/55240758/121782785-7701a080-cbd5-11eb-9d6d-24666e053c8d.png)
+- log  
+![image](https://user-images.githubusercontent.com/55240758/121782963-6f8ec700-cbd6-11eb-8ce4-d84fbef4736c.png)
 
 
 # Soal 2
