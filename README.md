@@ -108,7 +108,7 @@ Suatu_File.txt.0002
 
 Ketika diakses melalui filesystem hanya akan muncul Suatu_File.txt
 
-Jawaban : Sama seperti pengerjaan no.1, namun pada nomer ini, pada suatu direktori yang apabila direname menjadi ``RX_`` akan di enskripsi dengan algoritma atbash+ROT13 dan yang semula ``RX_[nama file]`` menjadi ``[nama file]`` akan dilakukan deskripsi dengan algoritma Vigenere Cipher dengan key “SISOP” (Case-sensitive, Atbash + Vigenere). Maka untuk fungsi enskrip maupun deskrip dengan ROT13  dan Vigenere Cipher yaitu :  
+Jawaban : Sama seperti pengerjaan no.1, namun pada nomer ini, pada suatu direktori yang apabila direname menjadi ``RX_`` akan di enskripsi dengan algoritma atbash+ROT13 dan yang semula ``RX_[nama folder]`` menjadi ``[nama folder]`` akan dilakukan deskripsi dengan algoritma Vigenere Cipher dengan key “SISOP” (Case-sensitive, Atbash + Vigenere). Maka untuk fungsi enskrip maupun deskrip dengan ROT13  dan Vigenere Cipher yaitu :  
 ```c
 void encryptRot13(char *path)
 {
