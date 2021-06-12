@@ -17,7 +17,7 @@ Apabila direktori yang terenkripsi di-rename menjadi tidak ter-encode, maka isi 
 Setiap pembuatan direktori ter-encode (mkdir atau rename) akan tercatat ke sebuah log. Format : /home/[USER]/Downloads/[Nama Direktori] → /home/[USER]/Downloads/AtoZ_[Nama Direktori]
 Metode encode pada suatu direktori juga berlaku terhadap direktori yang ada di dalamnya (rekursif).  
 
-Jawaban : Pada suatu direktori yang apabila direname menjadi ``AtoZ_`` akan di enskripsi dengan algoritma atbash dan yang semula ``AtoZ_[nama file]`` menjadi ``[nama file]`` akan dilakukan deskripsi dengan algoritma atbash pula. Maka untuk fungsi enskrip maupun deskrip dengan atbash yaitu : 
+Jawaban : Pada suatu direktori yang apabila direname menjadi ``AtoZ_`` akan di enskripsi dengan algoritma atbash cipher dan yang semula ``AtoZ_[nama file]`` menjadi ``[nama file]`` akan dilakukan deskripsi dengan algoritma atbash pula. Maka untuk fungsi enskrip maupun deskrip dengan fungsi atbash cipher yaitu : 
 
 ```c
 void encryptAtbash(char *path)
@@ -66,7 +66,9 @@ void decryptAtbash(char *path)
 	}
 }
 ```  
-Apabila fungsi enskrip tersebut berjalan maka akan dicatat pada file log yaitu SinSeiFS.log dimana pencatatan ini memilki fungsi terseniri yang akan dijelaskan pada soal nomer 4.
+Pada fungsi enskripsi dan deskripsi tersebut dalam memperoleh nama file maupun folder maka dilakukan pengecekan letak folder terakhir yakni ditandai dengan slash(/) terakhir dan letak file terakhir yakni ditandai dengan titik (.) terakhir. Pengecekan tersebut dilakukan pada saat looping. Dimana folder maupun file terakhir itulah yang akan dilakukan proses enskripsi maupun deskripsi menggunakan atbash cipher. 
+
+Apabila fungsi enskrip maupun deskrip tersebut berjalan maka akan dicatat pada file log yaitu SinSeiFS.log dimana pencatatan ini memilki fungsi terseniri yang akan dijelaskan pada soal nomer 4.
 Dokumentasi :  
 - sebelum rename direktori  
 pada file system :  
