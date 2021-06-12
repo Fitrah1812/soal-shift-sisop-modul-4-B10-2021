@@ -258,12 +258,12 @@ pada file system :
 pada downloads :  
 ![image](https://user-images.githubusercontent.com/55240758/121782576-643a9c00-cbd4-11eb-86a6-84dd72e73d64.png)
 ![image](https://user-images.githubusercontent.com/55240758/121782172-74517c00-cbd2-11eb-879a-bc9aa9c04c30.png)  
-- rename direktori menjadi RX_coba (enskripsi)  
+- rename direktori menjadi "RX_coba" (enskripsi)  
 pada file system :
 ![image](https://user-images.githubusercontent.com/55240758/121782260-e3c76b80-cbd2-11eb-8635-2c59f439bd44.png)  
 pada download :  
 ![image](https://user-images.githubusercontent.com/55240758/121782360-52a4c480-cbd3-11eb-81cd-f3f895d8027c.png)  
-- rename direktori menjadi coba (deskripsi)   
+- rename direktori menjadi "coba" (deskripsi)   
 pada file system :  
 ![image](https://user-images.githubusercontent.com/55240758/121782468-bfb85a00-cbd3-11eb-9ccc-f2720da765e3.png)
 pada downloads :  
