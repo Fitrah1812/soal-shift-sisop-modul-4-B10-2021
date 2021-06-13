@@ -348,7 +348,8 @@ e. Pada direktori spesial semua nama file (tidak termasuk ekstensi) pada fuse ak
 
 Contohnya jika pada direktori asli nama filenya adalah “FiLe_CoNtoH.txt” maka pada fuse akan menjadi “file_contoh.txt.1321”. 1321 berasal dari biner 10100101001.  
 
-Jawaban : Berikut cara yang dilakukan adalah dengan cara membuat encrypt dan decrypt dari folder yang spesial yaitu melakukan encrypt dengan memperhatikan posisi huruf besar dan huruf kecil apabila huruf besar maka akan dipassing nilai 1 di biner sedangkan apabila sudah huruf kecil maka akan dipassing nol.   
+Jawaban : Berikut cara yang dilakukan adalah dengan cara membuat encrypt dan decrypt dari folder yang spesial dengan awalan nama A_is_a. Pertama, fungsi encrypt berjalan dengan memperhatikan posisi huruf besar dan huruf kecil apabila huruf besar maka akan dipassing nilai 1 di biner sedangkan apabila sudah huruf kecil maka akan dipassing nol menggunakan fungsi getBinary(). Setelah itu, dari binary tersebut akan diubah ke desimal dengan fungsi bin_to_dec() yang akan di simpan di variabel integer. Setelah itu semuanya akan dijadikan satu pada sting filePathBinary yang akan menjadi nama baru filenya nanti.
+Untuk fungsi decrypt, pertama kita akan mencari angka desimalnya yang ada dibelakang ekstensi file tersebut menggunakan strrchr(). Lalu kita akan mengambil angka desimalnya dengan fungsi convertDec() dan disimpan pada variabel integer. Kemudian mengambil nama file tersebut tanpa desimalnya. Lalu kita ubah desimal tadi menjadi biner dengan fungsi dec_to_bin(). Lalu kita ubah nama file tersebut agar kembali mengikuti binernya dengan fungsi getDecimal() dan menaruhnya di sebuah string untuk fullname dan akan direname setelah itu.
 
 fungsi get binary :  
 ```c
