@@ -11,11 +11,11 @@ Misalkan terdapat file bernama kucinglucu123.jpg pada direktori DATA_PENTING
 Note : filesystem berfungsi normal layaknya linux pada umumnya, Mount source (root) filesystem adalah directory /home/[USER]/Downloads, dalam penamaan file ‘/’ diabaikan, dan ekstensi tidak perlu di-encode.
 Referensi : https://www.dcode.fr/atbash-cipher
 
-a. Jika sebuah direktori dibuat dengan awalan “AtoZ_”, maka direktori tersebut akan menjadi direktori ter-encode.
-b. Jika sebuah direktori di-rename dengan awalan “AtoZ_”, maka direktori tersebut akan menjadi direktori ter-encode.
-c. Apabila direktori yang terenkripsi di-rename menjadi tidak ter-encode, maka isi direktori tersebut akan terdecode.
-d. Setiap pembuatan direktori ter-encode (mkdir atau rename) akan tercatat ke sebuah log. Format : /home/[USER]/Downloads/[Nama Direktori] → /home/[USER]/Downloads/AtoZ_[Nama Direktori]
-e. Metode encode pada suatu direktori juga berlaku terhadap direktori yang ada di dalamnya (rekursif).  
+a. Jika sebuah direktori dibuat dengan awalan “AtoZ_”, maka direktori tersebut akan menjadi direktori ter-encode.  
+b. Jika sebuah direktori di-rename dengan awalan “AtoZ_”, maka direktori tersebut akan menjadi direktori ter-encode.  
+c. Apabila direktori yang terenkripsi di-rename menjadi tidak ter-encode, maka isi direktori tersebut akan terdecode.  
+d. Setiap pembuatan direktori ter-encode (mkdir atau rename) akan tercatat ke sebuah log. Format : /home/[USER]/Downloads/[Nama Direktori] → /home/[USER]/Downloads/AtoZ_[Nama Direktori]  
+e. Metode encode pada suatu direktori juga berlaku terhadap direktori yang ada di dalamnya (rekursif).    
 
 Jawaban : Pada suatu direktori yang apabila direname menjadi ``AtoZ_`` akan di enskripsi dengan algoritma atbash cipher dan yang semula ``AtoZ_[nama file]`` menjadi ``[nama file]`` akan dilakukan deskripsi dengan algoritma atbash pula. Maka untuk fungsi enskrip maupun deskrip dengan fungsi atbash cipher yaitu : 
 
@@ -100,17 +100,17 @@ pada download :
 # Soal 2
 
 Selain itu Sei mengusulkan untuk membuat metode enkripsi tambahan agar data pada komputer mereka semakin aman. Berikut rancangan metode enkripsi tambahan yang dirancang oleh Sei
-a. Jika sebuah direktori dibuat dengan awalan “RX_[Nama]”, maka direktori tersebut akan menjadi direktori terencode beserta isinya dengan perubahan nama isi sesuai kasus nomor 1 dengan algoritma tambahan ROT13 (Atbash + ROT13).
-b. Jika sebuah direktori di-rename dengan awalan “RX_[Nama]”, maka direktori tersebut akan menjadi direktori terencode beserta isinya dengan perubahan nama isi sesuai dengan kasus nomor 1 dengan algoritma tambahan Vigenere Cipher dengan key “SISOP” (Case-sensitive, Atbash + Vigenere).
-c. Apabila direktori yang terencode di-rename (Dihilangkan “RX_” nya), maka folder menjadi tidak terencode dan isi direktori tersebut akan terdecode berdasar nama aslinya.
-d. Setiap pembuatan direktori terencode (mkdir atau rename) akan tercatat ke sebuah log file beserta methodnya (apakah itu mkdir atau rename).
-e. Pada metode enkripsi ini, file-file pada direktori asli akan menjadi terpecah menjadi file-file kecil sebesar 1024 bytes, sementara jika diakses melalui filesystem rancangan Sin dan Sei akan menjadi normal. Sebagai contoh, Suatu_File.txt berukuran 3 kiloBytes pada directory asli akan menjadi 3 file kecil yakni:
+a. Jika sebuah direktori dibuat dengan awalan “RX_[Nama]”, maka direktori tersebut akan menjadi direktori terencode beserta isinya dengan perubahan nama isi sesuai kasus nomor 1 dengan algoritma tambahan ROT13 (Atbash + ROT13).  
+b. Jika sebuah direktori di-rename dengan awalan “RX_[Nama]”, maka direktori tersebut akan menjadi direktori terencode beserta isinya dengan perubahan nama isi sesuai dengan kasus nomor 1 dengan algoritma tambahan Vigenere Cipher dengan key “SISOP” (Case-sensitive, Atbash + Vigenere).  
+c. Apabila direktori yang terencode di-rename (Dihilangkan “RX_” nya), maka folder menjadi tidak terencode dan isi direktori tersebut akan terdecode berdasar nama aslinya.  
+d. Setiap pembuatan direktori terencode (mkdir atau rename) akan tercatat ke sebuah log file beserta methodnya (apakah itu mkdir atau rename).  
+e. Pada metode enkripsi ini, file-file pada direktori asli akan menjadi terpecah menjadi file-file kecil sebesar 1024 bytes, sementara jika diakses melalui filesystem rancangan Sin dan Sei akan menjadi normal. Sebagai contoh, Suatu_File.txt berukuran 3 kiloBytes pada directory asli akan menjadi 3 file kecil yakni:  
 
-Suatu_File.txt.0000
-Suatu_File.txt.0001
-Suatu_File.txt.0002
+Suatu_File.txt.0000  
+Suatu_File.txt.0001  
+Suatu_File.txt.0002  
 
-Ketika diakses melalui filesystem hanya akan muncul Suatu_File.txt
+Ketika diakses melalui filesystem hanya akan muncul Suatu_File.txt  
 
 Jawaban : Sama seperti pengerjaan no.1, namun pada nomer ini, pada suatu direktori yang apabila direname menjadi ``RX_`` akan di enskripsi dengan algoritma atbash+ROT13 dan yang semula ``RX_[nama folder]`` menjadi ``[nama folder]`` akan dilakukan deskripsi dengan algoritma Vigenere Cipher dengan key “SISOP” (Case-sensitive, Atbash + Vigenere). Maka untuk fungsi enskrip maupun deskrip dengan ROT13  dan Vigenere Cipher yaitu :  
 ```c
@@ -339,18 +339,16 @@ pada downloads :
 # Soal 3
 
 Karena Sin masih super duper gabut akhirnya dia menambahkan sebuah fitur lagi pada filesystem mereka. 
-a. Jika sebuah direktori dibuat dengan awalan “A_is_a_”, maka direktori tersebut akan menjadi sebuah direktori spesial.
-b. Jika sebuah direktori di-rename dengan memberi awalan “A_is_a_”, maka direktori tersebut akan menjadi sebuah direktori spesial.
-c. Apabila direktori yang terenkripsi di-rename dengan menghapus “A_is_a_” pada bagian awal nama folder maka direktori tersebut menjadi direktori normal.
-d. Direktori spesial adalah direktori yang mengembalikan enkripsi/encoding pada direktori “AtoZ_” maupun “RX_” namun masing-masing aturan mereka tetap berjalan pada direktori di dalamnya (sifat recursive  “AtoZ_” dan “RX_” tetap berjalan pada subdirektori).
-e. Pada direktori spesial semua nama file (tidak termasuk ekstensi) pada fuse akan berubah menjadi lowercase insensitive dan diberi ekstensi baru berupa nilai desimal dari binner perbedaan namanya.
+a. Jika sebuah direktori dibuat dengan awalan “A_is_a_”, maka direktori tersebut akan menjadi sebuah direktori spesial.  
+b. Jika sebuah direktori di-rename dengan memberi awalan “A_is_a_”, maka direktori tersebut akan menjadi sebuah direktori spesial.  
+c. Apabila direktori yang terenkripsi di-rename dengan menghapus “A_is_a_” pada bagian awal nama folder maka direktori tersebut menjadi direktori normal.  
+d. Direktori spesial adalah direktori yang mengembalikan enkripsi/encoding pada direktori “AtoZ_” maupun “RX_” namun masing-masing aturan mereka tetap berjalan pada direktori di dalamnya (sifat recursive  “AtoZ_” dan “RX_” tetap berjalan pada subdirektori).  
+e. Pada direktori spesial semua nama file (tidak termasuk ekstensi) pada fuse akan berubah menjadi lowercase insensitive dan diberi ekstensi baru berupa nilai desimal dari binner perbedaan namanya.  
 
 
-Contohnya jika pada direktori asli nama filenya adalah “FiLe_CoNtoH.txt” maka pada fuse akan menjadi “file_contoh.txt.1321”. 1321 berasal dari biner 10100101001.
+Contohnya jika pada direktori asli nama filenya adalah “FiLe_CoNtoH.txt” maka pada fuse akan menjadi “file_contoh.txt.1321”. 1321 berasal dari biner 10100101001.  
 
-Jawaban : 
-
-Berikut cara yang dilakukan adalah dengan cara membuat encrypt dan decrypt dari folder yang spesial yaitu melakukan encrypt dengan memperhatikan posisi huruf besar dan huruf kecil apabila huruf besar maka akan dipassing nilai 1 di biner sedangkan apabila sudah huruf kecil maka akan dipassing nol. 
+Jawaban : Berikut cara yang dilakukan adalah dengan cara membuat encrypt dan decrypt dari folder yang spesial yaitu melakukan encrypt dengan memperhatikan posisi huruf besar dan huruf kecil apabila huruf besar maka akan dipassing nilai 1 di biner sedangkan apabila sudah huruf kecil maka akan dipassing nol. 
 
 ```c
 void encryptBinary(char *fpath)
@@ -442,11 +440,11 @@ Folder setelahnya :
 # Soal 4
 
 Untuk memudahkan dalam memonitor kegiatan pada filesystem mereka Sin dan Sei membuat sebuah log system dengan spesifikasi sebagai berikut.
-a. Log system yang akan terbentuk bernama “SinSeiFS.log” pada direktori home pengguna (/home/[user]/SinSeiFS.log). Log system ini akan menyimpan daftar perintah system call yang telah dijalankan pada filesystem.
-b. Karena Sin dan Sei suka kerapian maka log yang dibuat akan dibagi menjadi dua level, yaitu INFO dan WARNING.
-c. Untuk log level WARNING, digunakan untuk mencatat syscall rmdir dan unlink.
-d. Sisanya, akan dicatat pada level INFO.
-e. Format untuk logging yaitu:
+a. Log system yang akan terbentuk bernama “SinSeiFS.log” pada direktori home pengguna (/home/[user]/SinSeiFS.log). Log system ini akan menyimpan daftar perintah system call yang telah dijalankan pada filesystem.  
+b. Karena Sin dan Sei suka kerapian maka log yang dibuat akan dibagi menjadi dua level, yaitu INFO dan WARNING.  
+c. Untuk log level WARNING, digunakan untuk mencatat syscall rmdir dan unlink.  
+d. Sisanya, akan dicatat pada level INFO.  
+e. Format untuk logging yaitu:  
 
 
 [Level]::[dd][mm][yyyy]-[HH]:[MM]:[SS]:[CMD]::[DESC :: DESC]
