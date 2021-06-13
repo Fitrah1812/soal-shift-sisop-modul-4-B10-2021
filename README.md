@@ -68,7 +68,7 @@ void decryptAtbash(char *path)
 ```  
 Pada fungsi enskripsi dan deskripsi tersebut dalam memperoleh nama file maupun folder maka dilakukan pengecekan letak folder terakhir yakni ditandai dengan slash(/) terakhir dan letak file terakhir yakni ditandai dengan titik (.) terakhir. Pengecekan tersebut dilakukan pada saat looping. Dimana folder maupun file terakhir itulah yang akan dilakukan proses enskripsi maupun deskripsi menggunakan atbash cipher. 
 
-Apabila fungsi enskrip maupun deskrip tersebut berjalan maka akan dicatat pada file log yaitu SinSeiFS.log dimana pencatatan ini memilki fungsi terseniri yang akan dijelaskan pada soal nomer 4.
+Apabila fungsi enskrip maupun deskrip tersebut berjalan atau dipanggil oleh suatu fungsi lain maka akan dicatat pada file log yaitu SinSeiFS.log dimana pencatatan ini memiliki fungsi tersendiri yang akan dijelaskan pada soal nomer 4.  
 Dokumentasi :  
 - sebelum rename direktori  
 pada file system :  
@@ -311,7 +311,9 @@ void enkripsi2(char *fpath)
     closedir(dp);
 }
 ```  
-Namun apabila nama direktori tersebut berawalan ``RX_`` pada path yang asal namun tidak pada path tujuan maka dapat diketahui bahwa direktori tersebut melakukan perename-an dengan menghapus ``RX_`` pada nama direktori file sistem. Setelah itu pada fungsi deskripsi2, file yang terdapat dalam direktori yang semula split menjadi beberapa file dengan ukuran 1024 bytes akan digabungkan menjadi satu pada direktori pada path asal.    
+Namun apabila nama direktori tersebut berawalan ``RX_`` pada path yang asal namun tidak pada path tujuan maka dapat diketahui bahwa direktori tersebut melakukan perename-an dengan menghapus ``RX_`` pada nama direktori file sistem. Setelah itu pada fungsi deskripsi2, file yang terdapat dalam direktori yang semula split menjadi beberapa file dengan ukuran 1024 bytes akan digabungkan menjadi satu pada direktori pada path asal.   
+
+Apabila fungsi enskrip maupun deskrip tersebut berjalan atau dipanggil oleh suatu fungsi lain maka akan dicatat pada file log yaitu SinSeiFS.log dimana pencatatan ini memiliki fungsi tersendiri yang akan dijelaskan pada soal nomer 4.  
 
 Dokumentasi :  
 - sebelum rename direktori  
@@ -422,7 +424,8 @@ void decryptBinary(char *fpath)
     closedir(dp);
 }
 
-```
+```  
+Apabila fungsi enskrip maupun deskrip tersebut berjalan atau dipanggil oleh suatu fungsi lain maka akan dicatat pada file log yaitu SinSeiFS.log dimana pencatatan ini memiliki fungsi tersendiri yang akan dijelaskan pada soal nomer 4.  
 
 Hasilnya adalah sebagai berikut :
 
