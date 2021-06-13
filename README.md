@@ -348,119 +348,8 @@ e. Pada direktori spesial semua nama file (tidak termasuk ekstensi) pada fuse ak
 
 Contohnya jika pada direktori asli nama filenya adalah “FiLe_CoNtoH.txt” maka pada fuse akan menjadi “file_contoh.txt.1321”. 1321 berasal dari biner 10100101001.  
 
-Jawaban : Berikut cara yang dilakukan adalah dengan cara membuat encrypt dan decrypt dari folder yang spesial yaitu melakukan encrypt dengan memperhatikan posisi huruf besar dan huruf kecil apabila huruf besar maka akan dipassing nilai 1 di biner sedangkan apabila sudah huruf kecil maka akan dipassing nol.   
-
-fungsi get binary :  
-```c
-void getBinary(char *fname, char *bin, char *lowercase){
-
-	int endid = ext_id(fname);
-
-	int startid = slash_id(fname, 0);
-
-	int i;
-
-	for(i=startid; i<endid; i++){
-		if(isupper(fname[i])){
-
-			bin[i] = '1';
-			lowercase[i] = fname[i] + 32;
-		}
-		else{
-
-			bin[i] = '0';
-			lowercase[i] = fname[i];
-		}
-	}
-
-	bin[endid] = '\0';
-
-	for(; i<strlen(fname); i++){
-
-		lowercase[i] = fname[i];
-	}
-
-	lowercase[i] = '\0';
-}
-```  
- fungsi bin_to_dec:
-```c
-int bin_to_dec(char *bin){
-
-	int tmp = 1, res = 0;
-
-	for(int i=strlen(bin)-1; i>=0; i--){
-
-		if(bin[i] == '1') res += tmp;
-
-		tmp *= 2;
-
-	}
-
-	return res;
-
-}
-```
-
-```c
-int convertDec(char *ext){
-
-	int dec = 0, pengali = 1;
-
-	for(int i=strlen(ext)-1; i>=0; i--){
-
-		dec += (ext[i]-'0')*pengali;
-
-		pengali *= 10;
-
-	}
-
-	return dec;
-
-}
-```
-
-```c
-void dec_to_bin(int dec, char *bin, int len){
-
-	int idx = 0;
-
-	while(dec){
-
-		if(dec & 1) bin[idx] = '1';
-
-		else bin[idx] = '0';
-
-		idx++;
-
-		dec /= 2;
-
-	}
-
-	while(idx < len){
-
-		bin[idx] = '0';
-
-		idx++;
-
-	}
-
-	bin[idx] = '\0';
-
-	
-
-	for(int i=0; i<idx/2; i++){
-
-		char tmp = bin[i];
-
-		bin[i] = bin[idx-1-i];
-
-		bin[idx-1-i] = tmp;
-
-	}
-
-}
-```  
+Jawaban : Berikut cara yang dilakukan adalah dengan cara membuat encrypt dan decrypt dari folder yang spesial dengan awalan nama A_is_a. Pertama, fungsi encrypt berjalan dengan memperhatikan posisi huruf besar dan huruf kecil apabila huruf besar maka akan dipassing nilai 1 di biner sedangkan apabila sudah huruf kecil maka akan dipassing nol menggunakan fungsi getBinary(). Setelah itu, dari binary tersebut akan diubah ke desimal dengan fungsi bin_to_dec() yang akan di simpan di variabel integer. Setelah itu semuanya akan dijadikan satu pada sting filePathBinary yang akan menjadi nama baru filenya nanti.
+Untuk fungsi decrypt, pertama kita akan mencari angka desimalnya yang ada dibelakang ekstensi file tersebut menggunakan strrchr(). Lalu kita akan mengambil angka desimalnya dengan fungsi convertDec() dan disimpan pada variabel integer. Kemudian mengambil nama file tersebut tanpa desimalnya. Lalu kita ubah desimal tadi menjadi biner dengan fungsi dec_to_bin(). Lalu kita ubah nama file tersebut agar kembali mengikuti binernya dengan fungsi getDecimal() dan menaruhnya di sebuah string untuk fullname dan akan direname setelah itu.
 
 ```c
 void encryptBinary(char *fpath)
@@ -545,7 +434,7 @@ Folder sebelumnya :
 
 Folder setelahnya :
 
-![image2](https://github.com/Fitrah1812/soal-shift-sisop-modul-4-B10-2021/blob/main/Dokumentasi/setelah.jpeg)
+![image2](https://github.com/Fitrah1812/soal-shift-sisop-modul-4-B10-2021/blob/main/Dokumentasi/Awal.jpeg)
 
 
 
