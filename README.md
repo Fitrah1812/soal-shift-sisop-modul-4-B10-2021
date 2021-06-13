@@ -545,7 +545,7 @@ Folder sebelumnya :
 
 Folder setelahnya :
 
-![image2](https://github.com/Fitrah1812/soal-shift-sisop-modul-4-B10-2021/blob/main/Dokumentasi/Awal.jpeg)
+![image2](https://github.com/Fitrah1812/soal-shift-sisop-modul-4-B10-2021/blob/main/Dokumentasi/setelah.jpeg)
 
 
 
