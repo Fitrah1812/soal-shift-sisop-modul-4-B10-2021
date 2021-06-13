@@ -94,6 +94,8 @@ pada download :
 - log  
 ![image](https://user-images.githubusercontent.com/55240758/121782963-6f8ec700-cbd6-11eb-8ce4-d84fbef4736c.png)  
 
+- Hasil Encode log
+![image](https://github.com/Fitrah1812/soal-shift-sisop-modul-4-B10-2021/blob/main/Dokumentasi/encodelog.jpeg)
 
 # Soal 2
 
@@ -344,7 +346,95 @@ Pada direktori spesial semua nama file (tidak termasuk ekstensi) pada fuse akan 
 
 Contohnya jika pada direktori asli nama filenya adalah “FiLe_CoNtoH.txt” maka pada fuse akan menjadi “file_contoh.txt.1321”. 1321 berasal dari biner 10100101001.
 
-Jawaban : Sudah mengerjakan beberapa fungsi tetapi tidak sempat karena waktu yang tidak cukup.
+Jawaban : 
+
+Berikut cara yang dilakukan adalah dengan cara membuat encrypt dan decrypt dari folder yang spesial yaitu melakukan encrypt dengan memperhatikan posisi huruf besar dan huruf kecil apabila huruf besar maka akan dipassing nilai 1 di biner sedangkan apabila sudah huruf kecil maka akan dipassing nol. 
+
+```c
+void encryptBinary(char *fpath)
+{
+	chdir(fpath);
+	DIR *dp;
+	struct dirent *dir;
+	struct stat lol;
+	dp = opendir(".");
+	if(dp == NULL) return;
+	
+	char dirPath[1000];
+	char filePath[1000];
+	char filePathBinary[1000];
+	
+    while ((dir = readdir(dp)) != NULL){
+		if (stat(dir->d_name, &lol) < 0);
+		else if (S_ISDIR(lol.st_mode)){
+			if (strcmp(dir->d_name,".") == 0 || strcmp(dir->d_name,"..") == 0) continue;
+			sprintf(dirPath,"%s/%s",fpath, dir->d_name);
+			encryptBinary(dirPath);
+		}
+		else{
+			sprintf(filePath,"%s/%s",fpath, dir->d_name);
+			char bin[1000], lowercase[1000];
+			getBinary(dir->d_name, bin, lowercase);
+			int dec = bin_to_dec(bin);
+			sprintf(filePathBinary,"%s/%s.%d",fpath,lowercase,dec);
+			rename(filePath, filePathBinary);
+		}
+	}
+    closedir(dp);
+}
+
+void decryptBinary(char *fpath)
+{
+	chdir(fpath);
+	DIR *dp;
+	struct dirent *dir;
+	struct stat lol;
+	dp = opendir(".");
+	if(dp == NULL) return;
+	
+	char dirPath[1000];
+	char filePath[1000];
+	char filePathDecimal[1000];
+	
+    while ((dir = readdir(dp)) != NULL){
+		if (stat(dir->d_name, &lol) < 0);
+		else if (S_ISDIR(lol.st_mode)){
+			if (strcmp(dir->d_name,".") == 0 || strcmp(dir->d_name,"..") == 0) continue;
+			sprintf(dirPath,"%s/%s",fpath, dir->d_name);
+			decryptBinary(dirPath);
+		}
+		else{
+			sprintf(filePath,"%s/%s",fpath, dir->d_name);
+			char fname[1000], bin[1000], normalcase[1000], clearPath[1000];
+			
+			strcpy(fname, dir->d_name);
+			char *ext = strrchr(fname, '.');
+			int dec = convertDec(ext+1);
+			for(int i=0; i<strlen(fname)-strlen(ext); i++) clearPath[i] = fname[i];
+			
+			char *ext2 = strrchr(clearPath, '.');
+			dec_to_bin(dec, bin, strlen(clearPath)-strlen(ext2));
+			getDecimal(clearPath, bin, normalcase);
+			sprintf(filePathDecimal,"%s/%s",fpath,normalcase);
+			rename(filePath, filePathDecimal);
+		}
+	}
+    closedir(dp);
+}
+
+```
+
+Hasilnya adalah sebagai berikut :
+
+Folder sebelumnya :
+
+![image](https://github.com/Fitrah1812/soal-shift-sisop-modul-4-B10-2021/blob/main/Dokumentasi/Awal.jpeg)
+
+Folder setelahnya :
+
+![image2](https://github.com/Fitrah1812/soal-shift-sisop-modul-4-B10-2021/blob/main/Dokumentasi/Awal.jpeg)
+
+
 
 # Soal 4
 
@@ -363,117 +453,60 @@ Level : Level logging, dd : 2 digit tanggal, mm : 2 digit bulan, yyyy : 4 digit 
 INFO::28052021-10:00:00:CREATE::/test.txt
 INFO::28052021-10:01:00:RENAME::/test.txt::/rename.txt
 
-Jawaban : 
+Jawaban : Berikut menrupakan hasil untuk menampilkan dengan yang diinginkan oleh soal apabila terdapat rmdir dan unlink maka diminta menuliskan warning dan sisanya akan ditulis sebagai INFO.
 
-1. Menggunakan make nod untuk mengambil fungsi membuat sebuah file yang diinginkan oleh user
+File info dan warning dibuat untuk mengeluarkan hal-hal yang diminta oleh soal
 
 ```c
-static int xmp_mknod(const char *path, mode_t mode, dev_t rdev){
+void tulisLog(char *nama, char *fpath)
+{
+	time_t rawtime;
+	struct tm *timeinfo;
+	time(&rawtime);
+	timeinfo = localtime(&rawtime);
 
-	lastCommand = MKNOD_STATUS;
+	char haha[1000];
 
-	char * AtoZPtr = strstr(path, AtoZ);
+	FILE *file;
+	file = fopen("/home/fitraharie/SinSeiFS.log", "a");
 
-	if(AtoZPtr != NULL)
-	{
-		int length = strlen(AtoZPtr);
-
-		printf("%d\n", length);
-
-		for(int i = length; i >= 0; i--)
-		{
-			if(AtoZPtr[i] == '/')
-			{
-				length = i;
-				break;
-			}
-		}
-
-		printf("%d\n", length);
-
-		decription1WithLength(AtoZPtr, length);
-	}
-
-	printf("\n\nDEBUG mknod %s\n\n", path);
-
-	char fpath[1000];
-	
-	if(strcmp(path,"/") == 0)
-	{
-		path=dirpath;
-		sprintf(fpath,"%s",path);
-	}
-	else 
-	{
-		sprintf(fpath, "%s%s",dirpath,path);
-	}
-	int woke;
-
-	if (S_ISREG(mode)) 
-	{
-		woke = open(fpath, O_CREAT | O_EXCL | O_WRONLY, mode);
-		if (woke >= 0)
-			woke = close(woke);
-	} 
-	else if (S_ISFIFO(mode))
-		woke = mkfifo(fpath, mode);
+	if (strcmp(nama, "RMDIR") == 0 || strcmp(nama, "UNLINK") == 0)
+		sprintf(haha, "WARNING::%.2d%.2d%d-%.2d:%.2d:%.2d::%s::%s\n", timeinfo->tm_mday, timeinfo->tm_mon + 1, timeinfo->tm_year + 1900, timeinfo->tm_hour, timeinfo->tm_min, timeinfo->tm_sec, nama, fpath);
 	else
-		woke = mknod(fpath, mode, rdev);
+		sprintf(haha, "INFO::%.2d%.2d%d-%.2d:%.2d:%.2d::%s::%s\n", timeinfo->tm_mday, timeinfo->tm_mon + 1, timeinfo->tm_year + 1900, timeinfo->tm_hour, timeinfo->tm_min, timeinfo->tm_sec, nama, fpath);
 
-	char str[100];
-
-	sprintf(str, "CREATE::%s", path);
-	writeInfo(str);
-
-	if (woke == -1)
-		return -errno;
-
-	return 0;
+	fputs(haha, file);
+	fclose(file);
+	return;
 }
 
-```
-
-
-2. File dan warning dibuat untuk mengeluarkan hal-hal yang diminta oleh soal
-
-```c
-void writeInfo(char * str)
+void tulisLog2(char *nama, const char *from, const char *to)
 {
-	FILE * logFile = fopen("/home/fitraharie/SinSei.log", "a");
-
 	time_t rawtime;
+	struct tm *timeinfo;
+	time(&rawtime);
+	timeinfo = localtime(&rawtime);
 
-	struct tm * timeinfo;
+	char haha[1000];
 
-	time ( &rawtime );
+	FILE *file;
+	file = fopen("/home/fitraharie/SinSeiFS.log", "a");
 
-	timeinfo = localtime (&rawtime);
+	if (strcmp(nama, "RMDIR") == 0 || strcmp(nama, "UNLINK") == 0)
+		sprintf(haha, "WARNING::%.2d%.2d%d-%.2d:%.2d:%.2d::%s::%s::%s\n", timeinfo->tm_mday, timeinfo->tm_mon + 1, timeinfo->tm_year + 1900, timeinfo->tm_hour, timeinfo->tm_min, timeinfo->tm_sec, nama, from, to);
+	else
+		sprintf(haha, "INFO::%.2d%.2d%d-%.2d:%.2d:%.2d::%s::%s::%s\n", timeinfo->tm_mday, timeinfo->tm_mon + 1, timeinfo->tm_year + 1900, timeinfo->tm_hour, timeinfo->tm_min, timeinfo->tm_sec, nama, from, to);
 
-	fprintf(logFile, "INFO::%d%d%d-%d:%d:%d::%s\n", timeinfo->tm_year+1900, timeinfo->tm_mon, timeinfo->tm_mday, timeinfo->tm_hour, timeinfo->tm_min, timeinfo->tm_sec, str);
-
-	fclose(logFile);
+	fputs(haha, file);
+	fclose(file);
+	return;
 }
 
 ```
 
 
-```php
-void writeWarning(char * str)
-{
-	FILE * logFile = fopen("/home/fitraharie/SinSei.log", "a");
+Hasilnya adalah sebagai berikut :
 
-	time_t rawtime;
-
-	struct tm * timeinfo;
-
-	time ( &rawtime );
-
-	timeinfo = localtime (&rawtime);
-
-	fprintf(logFile, "WARNING::%d%d%d-%d:%d:%d::%s\n", timeinfo->tm_year+1900, timeinfo->tm_mon, timeinfo->tm_mday, timeinfo->tm_hour, timeinfo->tm_min, timeinfo->tm_sec, str);
-	fclose(logFile);
-}
-```
-
+![image](https://github.com/Fitrah1812/soal-shift-sisop-modul-4-B10-2021/blob/main/Dokumentasi/WarningInfo.jpeg)
 
 
